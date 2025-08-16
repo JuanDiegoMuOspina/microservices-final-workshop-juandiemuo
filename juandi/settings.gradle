@@ -1,1 +1,3 @@
 rootProject.name = 'juandi'
+
+include 'bancos'
