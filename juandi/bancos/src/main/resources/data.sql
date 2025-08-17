@@ -1,0 +1,10 @@
+INSERT INTO banks (name, code) VALUES ('Bancolombia', 'BCOL');
+INSERT INTO banks (name, code) VALUES ('Davivienda', 'DAVI');
+INSERT INTO banks (name, code) VALUES ('BBVA Colombia', 'BBVA');
+INSERT INTO banks (name, code) VALUES ('Banco de Bogotá', 'BOG');
+INSERT INTO banks (name, code) VALUES ('Scotiabank Colpatria', 'SCOT');
+INSERT INTO banks (name, code) VALUES ('Itaú Corpbanca', 'ITAU');
+INSERT INTO banks (name, code) VALUES ('Banco Agrario', 'AGRA');
+INSERT INTO banks (name, code) VALUES ('Banco de Occidente', 'OCCI');
+INSERT INTO banks (name, code) VALUES ('Banco Popular', 'POPU');
+INSERT INTO banks (name, code) VALUES ('Banco AV Villas', 'AVIL');

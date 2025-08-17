@@ -1,17 +1,18 @@
 package com.banco.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
 
 @Data
 public class BankRequestDTO {
 
-    @NotBlank
-    @Size(max = 100)
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")
     private String name;
 
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank(message = "El código no puede estar vacío")
+    @Size(max = 50, message = "El código no puede tener más de 50 caracteres")
     private String code;
 }
