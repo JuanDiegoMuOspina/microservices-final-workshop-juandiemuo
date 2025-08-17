@@ -1,0 +1,20 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: transaction-service
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console-transactions
+
+  r2dbc:
+    url: r2dbc:h2:mem:///transactiondb
+    username: sa
+    password: ''
+
+  sql:
+    init:
+      mode: always
