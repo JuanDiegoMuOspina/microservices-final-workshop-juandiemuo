@@ -1,0 +1,27 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: transfer-service
+  
+  # Configuración para la conexión a RabbitMQ como consumidor
+  rabbitmq:
+    addresses: amqps://evpwlnyv:gTlQWOJRZccnJjjW-RCcKd7vuxWA7398@shark.rmq.cloudamqp.com/evpwlnyv
+    username: evpwlnyv
+    password: gTlQWOJRZccnJjjW-RCcKd7vuxWA7398
+
+  # Configuración para la base de datos propia de este servicio
+  h2:
+    console:
+      enabled: true
+      path: /h2-console-transfers
+
+  r2dbc:
+    url: r2dbc:h2:mem:///transferdb
+    username: sa
+    password: ''
+
+  sql:
+    init:
+      mode: always
