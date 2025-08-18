@@ -1,0 +1,12 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: auth-service
+  r2dbc:
+    url: r2dbc:h2:mem:///users
+    username: sa
+    password: ""
+
+jwt:
+  secret: 09879856YNB6B824H5JLKSGKLNKLDASJGFBNSD87254ljkhs
