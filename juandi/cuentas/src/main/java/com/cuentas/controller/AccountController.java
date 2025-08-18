@@ -1,8 +1,6 @@
 package com.cuentas.controller;
 
-import com.cuentas.dto.AccountResponseDTO;
-import com.cuentas.dto.CreateAccountRequestDTO;
-import com.cuentas.dto.UpdateAccountStatusRequestDTO;
+import com.cuentas.dto.*;
 import com.cuentas.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +42,13 @@ public class AccountController {
         return accountService.updateStatus(id, requestDTO);
     }
 
-    // TODO: Endpoint pendiente para obtener una cuenta con su historial de movimientos.
-    // Requerirá la implementación del cliente gRPC para comunicarse con el servicio de transacciones.
+    @PostMapping("/transfers")
+    public Mono<ProcessTransactionResponseDTO> createTransfer(@Valid @RequestBody TransferRequestDTO transferRequest) {
+        return accountService.createTransfer(transferRequest);
+    }
+
+    @GetMapping("/{id}/history")
+    public Mono<AccountWithHistoryDTO> findByIdWithHistory(@PathVariable Long id) {
+        return accountService.findByIdWithHistory(id);
+    }
 }
