@@ -4,21 +4,23 @@ server:
 spring:
   application:
     name: api-gateway
-  
-  cloud:
-    gateway:
-      routes:
-        # Ruta para el Servicio de Bancos
-        - id: bank-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/v1/banks/**
-
-        # Ruta para el Servicio de Cuentas
-        - id: account-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/v1/accounts/**
 
 jwt:
   secret: 09879856YNB6B824H5JLKSGKLNKLDASJGFBNSD87254ljkhs
+
+services:
+  uris:
+    bank-service: http://localhost:8081
+    account-service: http://localhost:8082
+    security-service: http://localhost:8086
+
+routes:
+  bank-service:
+    id: bank_service_route
+    path: /api/v1/banks/**
+  account-service:
+    id: account_service_route
+    path: /api/v1/accounts/**
+  security-service:
+    id: auth-service
+    path: /api/auth/**
