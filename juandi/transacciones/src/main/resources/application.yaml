@@ -4,7 +4,7 @@ server:
 spring:
   application:
     name: transaction-service
-  
+
   h2:
     console:
       enabled: true
@@ -18,3 +18,8 @@ spring:
   sql:
     init:
       mode: always
+      
+  rabbitmq:
+    addresses: amqps://evpwlnyv:gTlQWOJRZccnJjjW-RCcKd7vuxWA7398@shark.rmq.cloudamqp.com/evpwlnyv
+    username: evpwlnyv
+    password: gTlQWOJRZccnJjjW-RCcKd7vuxWA7398

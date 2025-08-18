@@ -5,6 +5,7 @@ import com.transacciones.dto.ProcessTransactionResponseDTO;
 import com.transacciones.dto.TransactionHistoryItemDTO;
 import com.transacciones.model.Transaction;
 import com.transacciones.repository.TransactionRepository;
+import com.transacciones.service.client.TranOrdersPublisher;
 import com.transacciones.service.util.TransactionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
+    private final TranOrdersPublisher tranOrdersPublisher;
 
     public Mono<ProcessTransactionResponseDTO> processTransaction(ProcessTransactionRequestDTO requestDTO) {
         String transferId = UUID.randomUUID().toString();
@@ -47,6 +49,9 @@ public class TransactionService {
             // Transferencia interbancaria: modelo pendiente con colas
             System.out.println("Pendiente implementar modelo de colas con RabbitMQ para transferencia interbancaria.");
             Transaction pendingWithdrawal = transactionMapper.createTransactionEntity(requestDTO, transferId, "WITHDRAWAL", "PENDING", requestDTO.getSourceAccountId());
+            Transaction deposit = transactionMapper.createTransactionEntity(requestDTO,transferId,"DEPOSIT", "COMPLETED", requestDTO.getDestinationAccountId());
+            tranOrdersPublisher.publishCartCreatedEvent(deposit);
+            System.out.printf("se fue el evento");
             return transactionRepository.save(pendingWithdrawal)
                     .thenReturn(createResponse(transferId, "PENDING"));
         }
