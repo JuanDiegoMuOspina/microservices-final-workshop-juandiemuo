@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+// Importamos el tipo Timestamp para manejar fechas de forma estandarizada.
+import "google/protobuf/timestamp.proto";
+
+// Opciones para la generación de código Java.
+option java_package = "com.transacciones.grpc";
+option java_multiple_files = true;
+
+// Definición del servicio de Transacciones
+service TransactionService {
+  // RPC para procesar una nueva transferencia.
+  rpc ProcessTransaction(ProcessTransactionRequest) returns (ProcessTransactionResponse);
+
+  // RPC para obtener el historial de transacciones de una cuenta.
+  // Utiliza 'stream' para devolver múltiples resultados de forma eficiente.
+  rpc GetTransactionHistory(GetTransactionHistoryRequest) returns (stream TransactionHistoryItem);
+}
+
+// Mensaje para la solicitud de procesar una transacción.
+// Corresponde a nuestro ProcessTransactionRequestDTO.
+message ProcessTransactionRequest {
+  int64 source_account_id = 1;
+  int64 source_bank_id = 2;
+  int64 destination_account_id = 3;
+  int64 destination_bank_id = 4;
+  // Usamos string para representar BigDecimal y mantener la precisión.
+  string amount = 5;
+  string source_account_original_balance = 6;
+  string description = 7;
+}
+
+// Mensaje para la respuesta de una transacción procesada.
+message ProcessTransactionResponse {
+  string transfer_id = 1;
+  string status = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+// Mensaje para la solicitud de historial de transacciones.
+message GetTransactionHistoryRequest {
+  int64 account_id = 1;
+}
+
+// Mensaje para un único ítem en el historial de transacciones.
+// Corresponde a nuestro TransactionHistoryItemDTO.
+message TransactionHistoryItem {
+  int64 transaction_id = 1;
+  string transfer_id = 2;
+  string type = 3;
+  // Usamos string para representar BigDecimal.
+  string amount = 4;
+  string status = 5;
+  google.protobuf.Timestamp date = 6;
+  string description = 7;
+}
