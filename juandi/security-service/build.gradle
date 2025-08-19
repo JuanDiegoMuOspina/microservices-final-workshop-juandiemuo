@@ -8,6 +8,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation 'com.h2database:h2'
     runtimeOnly 'io.r2dbc:r2dbc-h2'
+    testImplementation 'io.projectreactor:reactor-test'
     // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
@@ -15,4 +16,8 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Dependencias de Prueba Esenciales
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }

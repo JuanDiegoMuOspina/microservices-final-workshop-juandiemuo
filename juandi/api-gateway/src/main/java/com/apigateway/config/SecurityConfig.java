@@ -1,5 +1,6 @@
 package com.apigateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -9,10 +10,17 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
+
+  private final String authPath;
+
+  public SecurityConfig(@Value("${security.auth.path}") String authPath) {
+    this.authPath = authPath;
+  }
+
   @Bean
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     http.csrf(ServerHttpSecurity.CsrfSpec::disable)
-      .authorizeExchange(exchange -> exchange.pathMatchers("/api/auth/**").permitAll().anyExchange().permitAll());
+      .authorizeExchange(exchange -> exchange.pathMatchers(authPath).permitAll().anyExchange().permitAll());
     return http.build();
   }
 }

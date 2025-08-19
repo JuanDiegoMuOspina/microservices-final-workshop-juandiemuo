@@ -7,9 +7,9 @@ spring:
   
   # Configuración para la conexión a RabbitMQ como consumidor
   rabbitmq:
-    addresses: amqps://evpwlnyv:gTlQWOJRZccnJjjW-RCcKd7vuxWA7398@shark.rmq.cloudamqp.com/evpwlnyv
-    username: evpwlnyv
-    password: gTlQWOJRZccnJjjW-RCcKd7vuxWA7398
+    addresses: ${RABBITMQ_ADDRESSES}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
 
   # Configuración para la base de datos propia de este servicio
   h2:

@@ -2,10 +2,12 @@ package com.banco.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 
 @Data
+@Builder
 public class BankRequestDTO {
 
     @NotBlank(message = "El nombre no puede estar vacío")

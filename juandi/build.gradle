@@ -3,7 +3,13 @@ plugins {
     id 'org.springframework.boot' version '3.4.5' apply false
     id 'io.spring.dependency-management' version '1.1.7' apply false
     id 'com.google.protobuf' version '0.9.4' apply false
+    id 'jacoco'
 }
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
 
 
 allprojects {
@@ -20,6 +26,7 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'com.google.protobuf'
+    apply plugin: 'jacoco'
 
     java {
         toolchain {
@@ -42,7 +49,48 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-validation'
     }
 
+
+
     tasks.named('test') {
         useJUnitPlatform()
+        finalizedBy jacocoTestReport
+    }
+
+
+    jacocoTestReport {
+        dependsOn tasks.named('test')
+        reports {
+            xml.required = true
+            html.required = true
+        }
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                    'com/transacciones/grpc/**'
+                ])
+            }))
+        }
+    }
+}
+
+tasks.register('jacocoRootReport', JacocoReport) {
+    group = 'verification'
+    description = 'Generates an aggregate JaCoCo test coverage report for all subprojects.'
+    dependsOn(subprojects.stream().map { it.tasks.named('jacocoTestReport') }.toList())
+    executionData.from(fileTree(project.rootDir).include('**/build/jacoco/test.exec'))
+    classDirectories.setFrom(files(subprojects.collect { it.sourceSets.main.output }).collect {
+        fileTree(dir: it, exclude: [
+            'com/transacciones/grpc/**'
+        ])
+    })
+    sourceDirectories.from(files(subprojects.collect {
+        it.sourceSets.main.java.srcDirs
+    }))
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('reports/jacoco/jacocoRootReport/html')
+        xml.outputLocation = layout.buildDirectory.file('reports/jacoco/jacocoRootReport/jacocoRootReport.xml')
     }
 }
